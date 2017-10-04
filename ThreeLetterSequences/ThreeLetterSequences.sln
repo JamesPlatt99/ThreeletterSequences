@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeLetterSequences", "ThreeLetterSequences\ThreeLetterSequences.csproj", "{925FB7C2-D040-4FBF-A1FD-5FCF61D94E89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{925FB7C2-D040-4FBF-A1FD-5FCF61D94E89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925FB7C2-D040-4FBF-A1FD-5FCF61D94E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925FB7C2-D040-4FBF-A1FD-5FCF61D94E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925FB7C2-D040-4FBF-A1FD-5FCF61D94E89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36A81BF1-A722-45EC-8254-C092B4E6B618}
+	EndGlobalSection
+EndGlobal
