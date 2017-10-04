@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace ThreeLetterSequences
 {
@@ -12,36 +13,132 @@ namespace ThreeLetterSequences
     {
         static void Main(string[] args)
         {
+            string input;
             String query = @"\w(?=\w\w)";
             string text = ReadFromFile();
             text = text.ToLower();
-            //string text = "tra ttratra";
             int freqTRA = RegExApproach(text, "tra");
             int freqTSL = RegExApproach(text, query);
             Dictionary<string, int> results = getDictionary(text,query);
 
             Console.WriteLine("The string 'tra' appears {0} times, there are a total of {1} TLSs!",freqTRA,freqTSL);
             Console.WriteLine("There are a total of {0} unique TSLs.",results.Count);
-            Console.WriteLine("There are {0} unique TLSs that appear exactly {1} time(s).",getFreqFreq(results,freqTRA),freqTRA);           
-
-            Console.WriteLine("The 10 most common TLSs are: ");
-            foreach(string curTSL in topTen(results))
-            {
-                Console.WriteLine("   " + curTSL);
+            Console.WriteLine("There are {0} unique TLSs that appear exactly {1} time(s).",getFreqFreq(results,freqTRA),freqTRA);
+            while (true) { 
+                showMenu();
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        mostFrequent(results);
+                        break;
+                    case "2":
+                        specificTLS(results);
+                        break;
+                    case "3":
+                        text = getWebPageText();
+                        text = text.ToLower();
+                        results = getDictionary(text, query);
+                        break;
+                }
+                Console.ReadLine();
             }
-            Console.ReadLine();
         }
 
-        static string[] topTen(Dictionary<string, int> results)
+
+        static void showMenu()
         {
-            string[] output = new string[10];
-            
-            for(int i = 0; i < 10; i++)
+            Console.WriteLine();
+            Console.WriteLine("Please choose an option:");
+            Console.WriteLine(" 1. View most frequent TLSs");
+            Console.WriteLine(" 2. View frequency of a specific TLS");
+            Console.WriteLine(" 3. Load text from webpage");
+        }
+        static string getWebPageText()
+        {
+            string url = "";
+            Boolean validInput = false;
+            while (!validInput)
+            {
+                Console.Write("    URL to load: ");
+                try
+                {
+                    url = Console.ReadLine();
+                    if(Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                    {
+                        validInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid url");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    validInput = false;
+                }
+            }
+            WebClient webClient = new WebClient();
+            return webClient.DownloadString(url);
+        }
+        static void specificTLS(Dictionary<string, int> results)
+        {
+            string input = "";
+            Boolean validInput = false;
+            while (!validInput)
+            {
+                Console.Write("    Enter TLS: ");
+                try
+                {
+                    input = Console.ReadLine();
+                    if(input.Length == 3)
+                    {
+                        validInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That is not the right length, please try again.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    validInput = false;
+                }
+            }
+            int freq = results[input];
+            Console.WriteLine();
+            Console.WriteLine("The string {0} appears {1} times!", input, freq);
+        }
+
+        static void mostFrequent(Dictionary<string, int> results)
+        {
+            int n = 0;
+            Boolean validInput = false;
+            while (!validInput)
+            {
+                Console.Write("    Number of values to display: ");
+                try
+                {
+                    validInput = true;
+                    n = Convert.ToInt32(Console.ReadLine());
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    validInput = false;
+                }
+            }
+            string[] output = new string[n];
+            Console.WriteLine();
+            Console.WriteLine("The {0} most common TLSs are: ",n);
+            for (int i = 0; i < n; i++)
             {
                 output[i] = results.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
                 results.Remove(output[i]);
+                Console.WriteLine("   " + output[i]);
             }
-            return output;
         }
 
         static int getFreqFreq(Dictionary<string, int> results,int n)
